@@ -1,0 +1,2 @@
+class PromptAnswer < ApplicationRecord
+end

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  prompt_answers_id: 1
+  likes: false
+  ratings: 1
+  comments: MyText
+  user_id: 1
+
+two:
+  prompt_answers_id: 1
+  likes: false
+  ratings: 1
+  comments: MyText
+  user_id: 1
