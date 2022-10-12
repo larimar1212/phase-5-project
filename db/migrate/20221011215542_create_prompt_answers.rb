@@ -3,6 +3,7 @@ class CreatePromptAnswers < ActiveRecord::Migration[7.0]
     create_table :prompt_answers do |t|
       t.text :content
       t.integer :user_id
+      t.integer :prompt_id
 
       t.timestamps
     end

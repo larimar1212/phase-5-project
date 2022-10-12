@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  resources :prompts
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :prompts, only: [:index]
+  resources :users, only: [:create]
+  resources :prompt_answers
+  resources :ratings
 end
+
+  #post '/login', to 'auth#create'
+  #get '/profile', to 'users#profile'
+  #patch '/edit'  to 'users#update '

@@ -1,24 +1,16 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+My application/website is a tool designed to help budding screenwriters develop improvisatory skills by testing their creativity with scene prompts. Proven to help with writer's block. 
 
-Things you may want to cover:
+https://github.com/larimar1212/phase-5-project
 
-* Ruby version
 
-* System dependencies
 
-* Configuration
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+--example of an acceptable answer to a scene 
 
-* Deployment instructions
 
-* ...
+timer? so that its focused on being able to type simething out within a given time
+libraries, ect
