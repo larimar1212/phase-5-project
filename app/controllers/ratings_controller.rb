@@ -1,25 +1,22 @@
 class RatingsController < ApplicationController
+    before_action :set_rating #only: %i[ show update destroy ]
 
     def index 
         @ratings = Rating.all
         render json: @ratings
     end
 
-
     #GET /ratings/1 
 
     def show 
-        render json: @rating_params
+        render json: @rating
     end
 
     #POST /ratings 
     def create 
         @rating = Rating.create(rating_params)
-        if @rating.save 
-            render json: @rating, status: :created, location: @rating 
-        else  
-            render json: @rating.errors, status: :unprocessable_entity
-        end
+        if @rating.save && !@current_user ## checks once
+        render json: @rating, status: :created, location: @rating
     end
 
     #PATCH /ratings/1 

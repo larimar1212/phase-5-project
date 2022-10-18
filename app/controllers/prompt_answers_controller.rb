@@ -1,16 +1,7 @@
 class PromptAnswersController < ApplicationController
-    before_action :set_prompt_answer, only: 
-
-    #index 
-
-    #create
-
-
-    #destoy
-    #update 
-    #show 
-
-
+    before_action :set_prompt 
+    before_action :set_prompt_answers, only: %i[ show update destroy ]
+  
 
     #GET /prompt_answers 
     def index 
@@ -23,11 +14,20 @@ class PromptAnswersController < ApplicationController
         render json: @prompt_answer
     end
 
+
+
+
+  ##### GET /prompt_answers  ## see all the specific answers for a prompt 
+     def prompts_answers
+    @prompt_answers = @prompt.prompt_answers
+    render json: @prompt_answers
+  end
+
+
     #POST /prompt_answers
-    
     def create
-        @prompt_answer = PromptAnswer.create(prompt_answer_params)
-    
+      # Merge an object containing the prompt_id param with the prompt_answers_params object
+        @prompt_answer = PromptAnswer.new(prompt_answer_params) #.merge({prompt_id: params[:prompt_id]}))
         if @prompt_answer.save
           render json: @prompt_answer, status: :created, location: @prompt_answer
         else
@@ -51,13 +51,20 @@ class PromptAnswersController < ApplicationController
       end
 
       private 
+      # Use callbacks to share common setup or constraints between actions.
       
-        def set_prompt_answers
-        @prompt_answer = PromptAnswer.find(params[:id])
+       def set_prompt_answers
+       @prompt_answer = @prompt.prompt_answers.find_by!(id:params[:id])
+     end
+      
+        def set_prompt
+        @prompt = Prompt.find_by!(id: params[:prompt_id])
      end
 
      def prompt_answer_params
-        params.require(:prompt_answer).permit(:user_id, :prompt_id)
+        params.require(:prompt_answer).permit(:user_id, :prompt_id, :content)
      end
 
 end
+
+#authorization required to be able to post an answer  

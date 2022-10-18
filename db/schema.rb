@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_215744) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_18_162010) do
+  create_table "comments", force: :cascade do |t|
+    t.integer "prompt_answer_id"
+    t.integer "user_id"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "prompt_answers", force: :cascade do |t|
     t.text "content"
     t.integer "user_id"
@@ -22,15 +30,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_215744) do
   create_table "prompts", force: :cascade do |t|
     t.text "content"
     t.string "category"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "ratings", force: :cascade do |t|
     t.integer "prompt_answer_id"
-    t.boolean "likes"
-    t.integer "ratings"
-    t.text "comments"
+    t.integer "stars"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

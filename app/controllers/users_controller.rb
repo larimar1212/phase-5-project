@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
     skip_before_action :authorized, only: [:create]
-    ## before action, :set_user, only %i[show update destroy ]
+     before action :set_user, only: %i[show update destroy]
 
-
-   # GET /profile
+     
+     def index 
+      @users = User.all
+      render json: @users 
+      
+      # GET /profile 
    def profile
     puts "user id: #{@user_id}"
     @user_id = decode_token
@@ -14,11 +18,18 @@ class UsersController < ApplicationController
       render json: {error: "401 incorrect token"}, status: 401
     end
   end
+     
+    # GET /users/:id
+    def show 
+      @user = User.find_by(params[:id])
+      render json: @user, serializer: UserSerializer 
+    end
+
 
   # POST /users
   def create
     @user = User.create!(user_params)
-    render json: @user, status: :created 
+    render json: {user: @user, jwt: @token}, status: :created 
   end 
    
   # TODO: Allow users to update their user info and delete their account
@@ -37,13 +48,13 @@ class UsersController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  # def set_user
-  #   @user = User.find_by!(id:params[:id])
-  # end
+   def set_user
+     @user = User.find_by!(id:params[:id])
+   end
   # Only allow a list of trusted parameters through.
 
   def user_params
-    params.require(:user).permit(:email, :username, :password, :first_name, :last_name, :profile_picture)
+    params.permit(:email, :username, :password, :first_name, :last_name, :profile_picture)
   end
 
     

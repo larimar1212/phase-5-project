@@ -10,4 +10,8 @@ class PromptsController < ApplicationController
         @prompts = Prompt.find_by(params[:id])
         render json: @prompts
     end
+
+    # Need to declare categories as an array with "=> []" ?? 
 end
+
+#maybe need something that will 

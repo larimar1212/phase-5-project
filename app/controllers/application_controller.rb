@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
+    skip_before_action :verify_authenticity_token
     include ActionController::Cookies 
+    before_action :authorized
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     rescue_from JWT::DecodeError, with: :render_token_error
@@ -8,7 +10,7 @@ class ApplicationController < ActionController::Base
 
     def generate_token(user_id)
         JWT.encode({user_id:user_id}, SECRET_KEY)
-      end
+    end
     # in order to get decoded token u need a request that has aurhotization header token 
       def auth_header
         # { 'Authorization': 'Bearer <token>' }
@@ -55,7 +57,7 @@ class ApplicationController < ActionController::Base
         render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
       end
     
-    end
+  
 
 
 end

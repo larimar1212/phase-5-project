@@ -1,6 +1,6 @@
 class Prompt < ApplicationRecord
-    has_many :prompt_answers, dependent: :destroy
+    has_many :prompt_answers
 
 
 end
-  #index, show 
+  

@@ -3,6 +3,7 @@ class CreatePrompts < ActiveRecord::Migration[7.0]
     create_table :prompts do |t|
       t.text :content
       t.string :category
+      t.string :name 
 
       t.timestamps
     end
