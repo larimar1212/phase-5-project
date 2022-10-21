@@ -46,3 +46,16 @@ class RatingsController < ApplicationController
 
 
 end
+
+
+
+def rate
+    self.
+end
+
+# where a user can rate an answer (post) #create 
+def rate_answer 
+
+end
+
+#where a user can #

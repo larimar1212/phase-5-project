@@ -11,6 +11,7 @@ import EditProfileForm from './components/EditProfile';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import PromptAnswersPage from './components/PromptAnswersPage';
 
 function App() {
 
@@ -95,7 +96,7 @@ function App() {
         path='/prompt/answer_prompt' 
         element={<PromptForm setUser={setUser} user={user} />}/>
         <Route 
-        path='/user/feed' 
+        path='/feed/answers' 
         element={<Feed setUser={setUser} user={user} />} />
         </Routes>
  

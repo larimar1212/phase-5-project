@@ -18,10 +18,10 @@ class PromptAnswersController < ApplicationController
 
 
   ##### GET /prompt_answers  ## see all the specific answers for a prompt 
-     def prompts_answers
-    @prompt_answers = @prompt.prompt_answers
-    render json: @prompt_answers
-  end
+   #  def prompts_answers
+   # @prompt_answers = @prompt.prompt_answers
+  #  render json: @prompt_answers
+ #end
 
 
     #POST /prompt_answers

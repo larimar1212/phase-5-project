@@ -5,14 +5,24 @@ Rails.application.routes.draw do
   resources :ratings
   
 
+  ## TODO
 
+  #controller and serializers for comments table 
 
 #####auth 
   post '/login', to: 'auth#create' 
-  ## initial fetch req 
+  ## initial fetch req to profile 
   get '/profile', to: 'users#profile'
   patch '/edit', to: 'users#update'
-  get '/answers', to: 'prompt_answers#prompts_answers'
+
+  ##get 'feed/answers/', to: 'prompt_answers#prompts_answers'
+  
+  #FEED.JS
+  get '/feed/answers', to: 'prompts#high_prompt_answers'
+  get '/profile/recent/', to:'users#display_prompts_in_profile'
+  #get '/feed/answers/prompt/id'
+end 
+
   #post '/new' to 'prompt_answers#create'
   #patch '/update' to 'prompt_answers#update'
   #delete '/:id' to 'prompt_answers' 
@@ -29,4 +39,4 @@ Rails.application.routes.draw do
 
   #resources :prompts do
    # resources :prompt_answers
-  end
+  

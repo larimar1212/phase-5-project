@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     end
   end
      
-    # GET /users/:id
+    # GET /users/:id (see someones profile)
     def show 
       @user = User.find_by(params[:id])
       render json: @user, serializer: UserSerializer 
@@ -33,6 +33,12 @@ class UsersController < ApplicationController
   end 
    
   # TODO: Allow users to update their user info and delete their account
+# display 5 recently added prompts in profile 
+  def display_prompts_in_profile 
+    @user = @prompts.order(created_at :desc).limit(5)
+    render json: @user, serializer: PromptinProfileSerializer
+  end 
+  
 
   #PATCH /users/1 
   def update 
@@ -43,6 +49,7 @@ class UsersController < ApplicationController
    # DELETE /users/1
    def destroy
     @user.destroy
+    head :no_content
   end
 
   private
