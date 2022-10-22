@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link } from "react-router-dom";
 
 
@@ -19,16 +19,22 @@ export default function Profile({user, setUser}) {
 	const params = useParams();
 
 useEffect(() => {
-	fetch(`http://localhost:9292/find_by_username/${params.username}`)
+	let token = localStorage.getItem('token')
+	fetch(`http://localhost:3000/users/${params.username}`, {
+		 headers: {
+          Authorization: `Bearer: ${token}`
+     }
+	} )
 	.then(res => res.json())
-	.then(user => {
-		setProfile(user)
-		setPromptAnswers(user.prompt_answers)
-		if(activeUser) {
-			if (user.id === activeUser.id) {
-				setIsActiveUser(true)
-			}
-		}
+	.then(data => {
+		setProfile(data)
+		console.log(data)
+		setPromptAnswers(data.prompt_answers)
+		// if(activeUser) {
+		// 	if (user.id === activeUser.id) {
+		// 		setIsActiveUser(true)
+		// 	}
+		// }
 	})
 }, [activeUser, params])
 
@@ -124,3 +130,6 @@ useEffect(() => {
 //     </div>    
 //   )
 }
+
+
+

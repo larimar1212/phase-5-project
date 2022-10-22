@@ -1,6 +1,6 @@
 class PromptAnswerSerializer < ActiveModel::Serializer
-  attributes :id, :prompt_id, :avgstar
-  has_one :user 
+  attributes :id, :avgstar, :content
+  belongs_to :user 
   belongs_to :prompt
 
   

@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
     skip_before_action :authorized, only: [:create]
-     before action :set_user, only: %i[show update destroy]
+  #  before action :set_user, only: %i[ update destroy profile display_prompts_in_profile ]
 
      
      def index 
       @users = User.all
       render json: @users 
+     end
       
       # GET /profile 
    def profile
@@ -20,10 +21,15 @@ class UsersController < ApplicationController
   end
      
     # GET /users/:id (see someones profile)
-    def show 
-      @user = User.find_by(params[:id])
-      render json: @user, serializer: UserSerializer 
-    end
+    # def show 
+    #   @user = User.find_by!(id: params[:id])
+    #   render json: @user, serializer: UserSerializer 
+    # end
+
+    def show_by_username
+  @user = User.find_by!(username: params[:username])
+  render json: @user, serializer: UserSerializer
+end
 
 
   # POST /users
@@ -35,19 +41,21 @@ class UsersController < ApplicationController
   # TODO: Allow users to update their user info and delete their account
 # display 5 recently added prompts in profile 
   def display_prompts_in_profile 
-    @user = @prompts.order(created_at :desc).limit(5)
+    @user = User.find_by!(username: params[:username])
     render json: @user, serializer: PromptinProfileSerializer
   end 
   
 
   #PATCH /users/1 
   def update 
-    current_user.update!(user_params)
+    @user = User.find_by!(id: params[:id])
+    @user.update!(user_params)
     render json: current_user 
   end
   
    # DELETE /users/1
    def destroy
+    @user = User.find_by!(id: params[:id])
     @user.destroy
     head :no_content
   end
@@ -55,9 +63,9 @@ class UsersController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-   def set_user
-     @user = User.find_by!(id:params[:id])
-   end
+  #  def set_user
+  #    @user = User.find_by!(id: params[:id])
+  #  end
   # Only allow a list of trusted parameters through.
 
   def user_params

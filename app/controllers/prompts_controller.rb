@@ -7,18 +7,11 @@ class PromptsController < ApplicationController
 
     #show 
     def show 
-        @prompts = Prompt.find_by(params[:id])
-        render json:, serializers: PromptSerializer
+        @prompts = Prompt.find_by!(id: params[:id])
+        render json:@prompts, serializers: PromptSerializer
     end
 
-    def show 
-
-    # get 5 highest answers 
-    def high_prompt_answers  
-        @self.prompt_answers.max_by(5) { |answer| answer.avgstar }
-        render json:, serializers: PromptsWithHighestRatingsSerializer
-        
-   end 
+  
 
 
    #when you want to see all prompts and prompt answers method together 

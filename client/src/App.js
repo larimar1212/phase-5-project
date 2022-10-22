@@ -7,11 +7,12 @@ import Nav from './components/Nav';
 import Prompts from './components/Prompts';
 import PromptForm from './components/PromptForm';
 import Feed from './components/Feed';
-import EditProfileForm from './components/EditProfile';
+//import EditProfileForm from './components/EditProfile';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import PromptAnswersPage from './components/PromptAnswersPage';
+
 
 function App() {
 
@@ -26,8 +27,7 @@ function App() {
     if (token && !user) {
       fetch('http://localhost:3000/profile', {
         headers: {
-          token: token,
-					"Content-Type": "application/json"
+          Authorization: `Bearer ${token}`
 				}
 			})
       .then((res) => {
@@ -73,6 +73,7 @@ function App() {
         <Route 
         path='/' 
         element={user ? <Feed user={user}/> : <LandingPage />} />
+  
         <Route
 					path='/login'
 					element={<Login setUser={setUser} user={user} />}
@@ -82,16 +83,19 @@ function App() {
 					element={<SignUp setUser={setUser} user={user} />}
 				/>
         <Route
-					path='/user/:user_id'
+					path='/user/:username'
 					element={user ? <Profile setUser={setUser} user={user}/> : null}
 				/>
-				<Route
+				{/* <Route
 					path='/edit-user/:username'
 					element={<EditProfileForm setUser={setUser} user={user} />}
-				/>
+				/> */}
         <Route 
-        path='/prompt/prompts' 
+        path='/prompts' 
         element={<Prompts setUser={setUser} user={user} />} />
+        <Route
+        path='/answers/:prompt_answer_id' 
+        element={<PromptAnswersPage setUser={setUser} user={user} />} />
         <Route
         path='/prompt/answer_prompt' 
         element={<PromptForm setUser={setUser} user={user} />}/>

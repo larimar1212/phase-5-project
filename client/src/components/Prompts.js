@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 
@@ -16,17 +16,21 @@ export default function Prompts({user, setUser}) {
 /// if prompt id != to user id, cannot delete ro update
 //  if user_id != to prompt_answer id, you cannot star/rate 
 
-
 const blankState = {
 	content: ""
 }
 	useEffect(() => {
-	 setPrompts([]);
 		if (user) {
-			fetch(`http://localhost:3000/prompt/prompts`)
+			let token = localStorage.getItem('token')
+			fetch(`http://localhost:3000/prompts`, {
+        		headers: {
+         	 		Authorization: `Bearer ${token}`
+				}
+			})
 			.then((res) => {
 				if (res.ok) {
 					res.json().then((prompts) => {
+						console.log(prompts)
 						setPrompts(prompts);
 					});
 				} else {

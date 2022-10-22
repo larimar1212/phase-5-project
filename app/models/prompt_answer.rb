@@ -2,13 +2,24 @@ class PromptAnswer < ApplicationRecord
     belongs_to :prompt 
     belongs_to :user
     has_many :ratings 
-    #makes sure every rating has a unique user + answer pair
-    validates :user_id, uniqueness: { scope: prompt_id }
-
-  
     
-     ### custom method to get the average rating 
-     def avgstar
-        self.ratings.sum(:stars) / self.ratings.size
+     ### custom method to get the average rating of one answer 
+     
+     #conditional logic if soemhting has no ratings then it should return 0 
+     def avgstar 
+      if self.ratings.length == 0 
+        return 0 
+      else 
+        self.ratings.sum(:stars) / self.ratings.length
+        end
+
+    end
+
+      # class method to get 5 highest rated prompts
+
+      def self.five_answers 
+        self.all.max_by(5) { |answer| answer.avgstar }
       end
+
+
 end

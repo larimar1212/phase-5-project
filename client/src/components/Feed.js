@@ -4,7 +4,7 @@ import FeedCard from './FeedCard'
 import { useParams } from 'react-router-dom'
 
 export default function Feed({user}) {
-  const [prompts, setPrompts] = useState([])
+  const [answers, setAnswers] = useState([])
  //const [count, setCount] = useState(5)
 
 //if user, want to see highest rated prompt answers and can click on the
@@ -14,10 +14,18 @@ const params = useParams();
 
 // Custom GET #shows top average answers 
 useEffect(() => {
-  fetch('http://localhost:3000/feed/answers')
+  let token = localStorage.getItem('token')
+  fetch('http://localhost:3000/feed/answers', {
+     headers: {
+          Authorization: `Bearer: ${token}`
+     }
+  })
     .then((res) => {
       if (res.ok) {
-        res.json().then((prompts) => setPrompts(prompts));
+        res.json().then((data) => {
+          setAnswers(data)
+          console.log(data)
+        });
       } else {
         res.json().then((data) => console.log(data));
       }
@@ -34,7 +42,7 @@ return (
       <h1>New Items From Your Friends</h1>
     </div>
     <div id="feed-list">
-      {prompts.map((prompt) => (
+      {answers.map((answer) => (
         <FeedCard
           key={prompt.id}
           prompt={prompt}  

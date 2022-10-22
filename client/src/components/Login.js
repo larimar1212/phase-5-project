@@ -1,21 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function Login({ setUser }) {
     const initialState = { username: "", password: "" };
 	const [formData, setFormData] = useState(initialState);
 
-
-
+const navigate = useNavigate()
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-        
 		setFormData({...formData, [name]: value});
 	}
-
+	
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log(formData)
 		// setErrors([]);
 		fetch("http://localhost:3000/login", {
 			method: "POST",
@@ -28,8 +28,10 @@ function Login({ setUser }) {
 				setFormData(initialState);
 				if (res.ok) {
 					res.json().then((data) => {
-						localStorage.setItem("jwt", data.token);
+						localStorage.setItem("token", data.token);
 						setUser(data.user);
+						console.log(data)
+						navigate('/')	
 					});
 				} else {
 					res.json().then((data) => {

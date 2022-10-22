@@ -1,5 +1,4 @@
 class PromptAnswersController < ApplicationController
-    before_action :set_prompt 
     before_action :set_prompt_answers, only: %i[ show update destroy ]
   
 
@@ -50,15 +49,17 @@ class PromptAnswersController < ApplicationController
         @prompt_answer.destroy 
       end
 
+      # get 5 highest answers
+        def high_prompt_answers
+          @prompt_answers = PromptAnswer.five_answers
+          render json: @prompt_answers
+        end
+
       private 
       # Use callbacks to share common setup or constraints between actions.
       
        def set_prompt_answers
-       @prompt_answer = @prompt.prompt_answers.find_by!(id:params[:id])
-     end
-      
-        def set_prompt
-        @prompt = Prompt.find_by!(id: params[:prompt_id])
+       @prompt_answer = PromptAnswer.find_by!(id:params[:id])
      end
 
      def prompt_answer_params

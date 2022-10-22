@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :prompts, only: [:index, :show]
-  resources :users, only: [:index, :show, :update, :create, :destroy]
+  resources :users, only: [:index, :update, :create, :destroy]
   resources :prompt_answers  
   resources :ratings
   
@@ -15,10 +15,12 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#profile'
   patch '/edit', to: 'users#update'
 
-  ##get 'feed/answers/', to: 'prompt_answers#prompts_answers'
+  # profile
+
+  get '/users/:username', to: 'users#show_by_username'
   
   #FEED.JS
-  get '/feed/answers', to: 'prompts#high_prompt_answers'
+  get '/feed/answers', to: 'prompt_answers#high_prompt_answers'
   get '/profile/recent/', to:'users#display_prompts_in_profile'
   #get '/feed/answers/prompt/id'
 end 

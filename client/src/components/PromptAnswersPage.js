@@ -3,16 +3,19 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 export default function PromptAnswersPage({ user }) {
-  const [currentUser, setCurrentUser] = useState(false);
+ const [currentUser, setCurrentUser] = useState(false);
   const [rating, setRating] = useState(false); // number
   const [comment, setComment] = useState(false);
   const [prompt, setPrompt] = useState({});
   const [profile, setProfile] = useState({});
   const [answer, setAnswer] = useState({});
   const [stars, setStars] = useState(0);
+  const [hasRated, setHasRated] = useState(false)
 
   const params = useParams();
   const navigate = useNavigate();
+
+  const id = params.prompt_answer_id
 
   //TODO
   // if a user has already rated a prompt
@@ -33,9 +36,17 @@ export default function PromptAnswersPage({ user }) {
 
   //GET /prompt_answers/1
   useEffect(() => {
-    fetch(`http://localhost:3000/prompts/${params.prompt_answer_id}`)
+    let token = localStorage.getItem('token')
+    fetch(`http://localhost:3000/prompt_answers/${id}`, {
+       headers: {
+          Authorization: `Bearer: ${token}`
+     }
+
+    })
       .then((res) => res.json())
       .then((data) => {
+        console.log('data', data)
+        console.log('user', user)
         setPrompt(data.prompt);
         setProfile(data.user);
         setAnswer(data); // prompt_answer
@@ -45,8 +56,9 @@ export default function PromptAnswersPage({ user }) {
           if (data.user_id === user.id) {
             setCurrentUser(true);
           } else {
-            const rating = data.ratings.find((rating) => {
-              return rating.user_id === user.id;
+            const rating = user.ratings?.find((rating) => {
+              // console.log('user has rated', rating.user_id === data.user.id);
+              return rating.user_id === data.user.id;
             });
             setRating(rating);
           }
@@ -59,10 +71,12 @@ export default function PromptAnswersPage({ user }) {
   // PATCH if user has already rated 
   useEffect(() => {
     if (rating) {
+      let token = localStorage.getItem('token')
       fetch(`http://localhost:3000/ratings/${rating.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer: ${token}`
         },
         body: JSON.stringify({
           stars: stars,
@@ -76,17 +90,19 @@ export default function PromptAnswersPage({ user }) {
         }
       });
     } else {
-      if (!rating) { // POST if its new
+      if (!rating && hasRated) { // POST if its new
         const handleRating = (e) => {
           const newRating = {
             user_id: user.id,
             prompt_answer_id: answer.id,
             stars: stars,
           };
+           let token = localStorage.getItem('token')
           fetch("http://localhost:9292/ratings ", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+                Authorization: `Bearer: ${token}`
             },
             body: JSON.stringify(newRating),
           })
@@ -100,6 +116,7 @@ export default function PromptAnswersPage({ user }) {
 
   //INCREMENT AND DECREMENT RATING
   const handleIncrementStars = () => {
+    setHasRated(true)
     if (stars < 5) {
       setStars((stars) => stars + 1);
     }
@@ -108,6 +125,7 @@ export default function PromptAnswersPage({ user }) {
     }
   };
   const handleDecrementStars = () => {
+    setHasRated(true)
     if (stars > 1) setStars((stars) => stars - 1);
   };
 
@@ -186,30 +204,21 @@ export default function PromptAnswersPage({ user }) {
       {prompt ? (
         <div>
           <div className="menu-page-container-div">
-            {isActiveUser ? null : (
+            {currentUser ? null : (
               <>
                 {rating ? (
-                  <button className="rating-button" onClick={handleRating}>
+                  <button className="rating-button" >
                   </button>
                 ) : (
-                  <button className="like-button" onClick={handleLike}>
-                    Like Menu <BsSuitHeart style={{ marginBottom: "-2px" }} />
+                  <button className="like-button" >
+                    Like Menu
                   </button>
                 )}
 
                 <br />
               </>
             )}
-
-            <img
-              className="menu-page-img"
-              src={menu.image_url}
-              alt="menu"
-              style={{ height: "200px", width: "auto" }}
-            />
-            <h1 className="menu-page-title">{menu.name}</h1>
-
-            {!isActiveUser ? (
+            {!currentUser ? (
               <h3 className="dish-name">
                 by{" "}
                 <Link to={`/user/${profile.username}`}>
@@ -219,33 +228,17 @@ export default function PromptAnswersPage({ user }) {
             ) : null}
 
             <p className="small-text-menu">
-              Plated on {platedDate.toDateString()}
+              Plated on
             </p>
             <p className="small-text-menu">
-              <em>{menu.description}</em>
+              <em></em>
             </p>
-
-            {menu.courses.map((course) => (
-              <div key={course.id}>
-                <h2 className="menu-page-category">{course.category}</h2>
-
-                {course.dishes.map((dish) => (
-                  <div key={dish.id}>
-                    <h3 className="dish-name">{dish.name}</h3>
-                    <p className="small-text-menu">{dish.description}</p>
-                    <p className="small-text-menu">
-                      Ingredients: {dish.ingredients}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ))}
             <p className="small-date-menu">
-              Published {publishedDate.toDateString()}
+              Published 
             </p>
 
-            {isActiveUser ? (
-              <button onClick={handleDeleteMenu} className="delete-button">
+            {currentUser ? (
+              <button className="delete-button">
                 Delete Menu
               </button>
             ) : null}
