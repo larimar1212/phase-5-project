@@ -40,10 +40,10 @@ end
    
   # TODO: Allow users to update their user info and delete their account
 # display 5 recently added prompts in profile 
-  def display_prompts_in_profile 
-    @user = User.find_by!(username: params[:username])
-    render json: @user, serializer: PromptinProfileSerializer
-  end 
+  #def display_prompts_in_profile 
+   # @user = User.find_by!(username: params[:username])
+  #  render json: @user, serializer: PromptinProfileSerializer
+ # end 
   
 
   #PATCH /users/1 

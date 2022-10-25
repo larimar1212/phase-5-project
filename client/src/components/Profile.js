@@ -1,135 +1,116 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import './Profile.css'
 
+export default function Profile({ user, setUser }) {
+  // Profile will keep track of user, whether user is active user
+  // TODO :
+  // THIS IS YOUR PROFILE OR OTHERS PROFILES
 
-export default function Profile({user, setUser}) {
-// Profile will keep track of user, whether user is active user
-// TODO : 
-// THIS IS YOUR PROFILE OR OTHERS PROFILES 
-
-  // fetches last 5 user.prompts and user.prompt answers 
+  // fetches last 5 user.prompts and user.prompt answers
   // (CUSTOM METHOD IN BACKEND)
   // maps through them => returns a ProfileAnswerCard component
-  // DATA = PROMPT ANSWER 
+  // DATA = PROMPT ANSWER
 
-  const [profile, setProfile] = useState(null)
-	const [promptAnswers, setPromptAnswers] = useState({})
-	const [activeUser, setIsActiveUser] = useState(false)
-	
-	const params = useParams();
+  // TODO -- LINK TO PROMPT ANSWERS WHEN CLICKING ON ANSWER 
 
-useEffect(() => {
-	let token = localStorage.getItem('token')
-	fetch(`http://localhost:3000/users/${params.username}`, {
-		 headers: {
-          Authorization: `Bearer: ${token}`
-     }
-	} )
-	.then(res => res.json())
-	.then(data => {
-		setProfile(data)
-		console.log(data)
-		setPromptAnswers(data.prompt_answers)
-		// if(activeUser) {
-		// 	if (user.id === activeUser.id) {
-		// 		setIsActiveUser(true)
-		// 	}
-		// }
-	})
-}, [activeUser, params])
+  const [profile, setProfile] = useState(null);
+  const [promptAnswers, setPromptAnswers] = useState({});
+  const [activeUser, setIsActiveUser] = useState(false); // state to determine if user is on their own profile
+  const [prompts, setPrompts] = useState({}) // set the prompts too 
 
-// useEffect(() => {
-// 	// if user is on their own page 
-// 	if (user.id === parseInt(params.user_id)) {
-// 		setProfile({
-// 			user: user
-// 		});
-// 	} else { // if not user id != profile, then no 
-// 		fetch()
-// 	}
+  const params = useParams();
 
-// }
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/users/${params.username}`, {
+      headers: {
+        Authorization: `Bearer: ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile(data);
+        console.log(`/${params.username}`, data);
+        setPromptAnswers(data.prompt_answers);
+		console.log(data.prompt_answers)
+        if (user.id === data.id) {
+          setIsActiveUser(true);
+        }
+      });
+  }, [activeUser, params]);
 
-// IN USE EFFECT ..
-// if user, on profile.js u should be able to edit, and see your 
-// recently uploaded 
+  console.log(user)
+  // make fetch request to get all the prompts as well 
 
-// ,mayve in useefffect hook 
-// FIRST YOU FETCH THE USER _PROMPT ANSEWERS PARAMS. ID
-// fwrch is /profile/recent/${params.prompt_answer_id} 
-// then if user .. you can edit, ect 
+  // useEffect(() => {
+  // 	// if user is on their own page
+  // 	if (user.id === parseInt(params.user_id)) {
+  // 		setProfile({
+  // 			user: user
+  // 		});
+  // 	} else { // if not user id != profile, then no
+  // 		fetch()
+  // 	}
 
+  // }
 
+  // IN USE EFFECT ..
+  // if user, on profile.js u should be able to edit, and see your
+  // recently uploaded
 
-// 	useEffect(() => {
-// 		fetch(`http://localhost:9292/find_by_username/${params.username}`)
-// 			.then(res => res.json())
-// 			.then(user => {
-// 				setProfile(user);
-// 				setPrompts(user.prompt_answers);
-// 				if (user) {
-// 					if (user.id === activeUser.id) {
-// 						setIsActiveUser(true)
-// 					}
-// 				}
-// 			})
-// 	},[activeUser, params])
+  // ,mayve in useefffect hook
+  // FIRST YOU FETCH THE USER _PROMPT ANSEWERS PARAMS. ID
+  // fwrch is /profile/recent/${params.prompt_answer_id}
+  // then if user .. you can edit, ect
 
-// 	return ( 
-//     <div className="profile-container">
-// 			{profile ? (
+  return (
+    <div className="profile-container">
+      {profile ? (
+        <>
+          <h1 className="profile-heading">
+            {activeUser ? "Your Profile " : `${profile.first_name} ${profile.last_name} Profile`}
+          </h1>
 
-// 				<>
-// 					<h1 className="profile-heading">{isActiveUser ? "Your Profile |" : null } {`${profile.first_name} ${profile.last_name}`}</h1>
+          <div className="profile-pic-div">
+            <img
+              className="user-picture-in-profile"
+              src={profile.profile_picture}
+              alt="profile"
+            />
 
-// 					<div className="profile-pic-div">
-// 						<img className="user-picture-in-profile"
-// 						src={profile.image_url}
-// 						alt="profile"
-// 						/>
+            {activeUser ? (
+              <Link
+                className="link-to-edit"
+                to={`/edit-user/${profile.username}`}
+              >
+                <button className="edit-button">Edit Profile</button>
+              </Link>
+            ) : null}
+          </div>
 
-// 						{isActiveUser ? (
-// 							<Link className="link-to-edit" to={`/edit-user/${profile.username}`}><button className="edit-button">Edit Profile</button></Link>
-// 						) : null}
-// 					</div>
+		  <div className="profile-badge">
+			<img
+			className="badge"
+			src={profile.badge} />
 
-// 					<h2 className="headings-for-profile-images">{isActiveUser ? "Your Menus" : `${profile.first_name}'s Menus`}</h2>
+		  </div>
 
-// 					<div>
-// 						{prompt_answers.map(prompt_answer => (
-// 							<div key={prompt_answer.id} className="your-menus">
-// 							 className="your-menu-images" prompt_answer={prompt_answer} tag={"prompt_answer"}/>
-// 							</div>
-// 						))}
-// 					</div>
+          <h2 className="headings-for-profile-images">
+            {activeUser ? "Recent Prompts" : `${profile.first_name}'s Prompt Answers`}
+          </h2>
 
-// 					<h2 className="headings-for-profile-images"> Liked Menus </h2>
-
-
-// 					<div>
-// 						 {likes.map(like => (
-// 						<div key={like.id} className="liked-menus">
-// 							= className="liked-menu-images" menu={like} tag={"like"}/>
-// 						</div>
-// 					))}
-						
-// 					</div>
-
-
-// 				</>
-
-				
-
-
-
-
-// 			) : null}
-
-				
-
-//     </div>    
-//   )
+          <div className="prompt_answers">
+            {profile.prompt_answers.map((prompt_answer) => (
+              <div key={prompt_answer.id} 
+			  className="prompt-answer">
+				<h3 className="prompt_answer_text">{prompt_answer.content}</h3>
+								<h3 className="prompt_answer_text">{prompt_answer.rating}</h3>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : null}
+    </div>
+  );
 }
-
-
-

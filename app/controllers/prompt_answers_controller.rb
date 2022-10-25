@@ -63,7 +63,7 @@ class PromptAnswersController < ApplicationController
      end
 
      def prompt_answer_params
-        params.require(:prompt_answer).permit(:user_id, :prompt_id, :content)
+        params.permit(:user_id, :prompt_id, :content)
      end
 
 end

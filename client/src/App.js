@@ -12,6 +12,7 @@ import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import PromptAnswersPage from './components/PromptAnswersPage';
+import SinglePrompt from './SinglePrompt';
 
 
 function App() {
@@ -41,7 +42,9 @@ function App() {
 			});
 		}
 	}, [user]);
-
+  
+console.log({user})
+  
 
 
   /// fetch prompt answers 
@@ -93,15 +96,20 @@ function App() {
         <Route 
         path='/prompts' 
         element={<Prompts setUser={setUser} user={user} />} />
+         <Route 
+        path='/prompts/:prompt_id' 
+        element={<SinglePrompt setUser={setUser} user={user} />} />
+
         <Route
         path='/answers/:prompt_answer_id' 
         element={<PromptAnswersPage setUser={setUser} user={user} />} />
         <Route
-        path='/prompt/answer_prompt' 
+        path='/prompts/answer_form' 
         element={<PromptForm setUser={setUser} user={user} />}/>
         <Route 
         path='/feed/answers' 
         element={<Feed setUser={setUser} user={user} />} />
+        
         </Routes>
  
     </div>
@@ -110,6 +118,7 @@ function App() {
 
 export default App;
 
+// two comp
 
 
 /*  

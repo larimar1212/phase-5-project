@@ -15,7 +15,7 @@ const navigate = useNavigate()
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(formData)
+		// console.log(formData)
 		// setErrors([]);
 		fetch("http://localhost:3000/login", {
 			method: "POST",

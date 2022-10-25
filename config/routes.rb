@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :prompts, only: [:index, :show]
   resources :users, only: [:index, :update, :create, :destroy]
-  resources :prompt_answers  
+  resources :prompt_answers 
   resources :ratings
   
 
@@ -21,7 +21,6 @@ Rails.application.routes.draw do
   
   #FEED.JS
   get '/feed/answers', to: 'prompt_answers#high_prompt_answers'
-  get '/profile/recent/', to:'users#display_prompts_in_profile'
   #get '/feed/answers/prompt/id'
 end 
 

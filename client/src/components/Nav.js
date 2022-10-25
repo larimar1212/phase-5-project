@@ -15,13 +15,13 @@ function Nav({ user, setUser }) {
     <div className="navbar-div">
       {user ? (
         <div className="nav-item-container">
-          <Link to={`/user/${user.id}`}>
+          <Link to={`/user/${user.username}`}>
             <button className="nav-item">YOUR PROFILE</button>
           </Link>
-          <Link to={"/user/feed"}>
+          <Link to={"/feed/answers"}>
             <button className="nav-item">THE HOTLIST</button>
           </Link>
-          <Link to={"/prompt/prompts"}>
+          <Link to={"/prompts"}>
             <button className="nav-item">TEST YOUR SKILLS</button>
           </Link>
           <button className="nav-item" onClick={handleLogout}>

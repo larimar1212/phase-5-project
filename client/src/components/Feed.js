@@ -24,7 +24,7 @@ useEffect(() => {
       if (res.ok) {
         res.json().then((data) => {
           setAnswers(data)
-          console.log(data)
+          console.log('top 5 answers', data)
         });
       } else {
         res.json().then((data) => console.log(data));
@@ -42,10 +42,12 @@ return (
       <h1>New Items From Your Friends</h1>
     </div>
     <div id="feed-list">
-      {answers.map((answer) => (
+      {answers?.map((answer) => (
         <FeedCard
-          key={prompt.id}
-          prompt={prompt}  
+          user = {user}
+          key={answer.id}
+          answer={answer}
+          prompt={answer.prompt}  
         />
       ))}
     </div>

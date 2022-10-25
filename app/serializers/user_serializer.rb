@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :username, :first_name, :last_name, :profile_picture, :prompt_answers
+  attributes :id, :username, :profile_picture, :prompt_answers
   has_many :ratings
   
   def prompt_answers
