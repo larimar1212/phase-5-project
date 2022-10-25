@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import {FaStar} from 'react-icons/fa'
 
 
 //FEED/ANSWERS 
@@ -52,9 +53,9 @@ export default function PromptAnswersPage({ user }) {
         setProfile(data.user);
         setAnswer(data); // prompt_answer
         setComment(data.comments);
-        
+
         if (user) {
-          if (data.user_id === user.id) {
+          if (data.user.id === user.id) {
             setCurrentUser(true);
           } else {
             const rating = user.ratings?.find((rating) => {
@@ -94,14 +95,16 @@ export default function PromptAnswersPage({ user }) {
     } else {
       if (!rating && hasRated) {
         // POST if its new
-        const handleRating = (e) => {
+        const handleSubmit = (e) => {
+          e.preventDefault()
           const newRating = {
             user_id: user.id,
             prompt_answer_id: answer.id,
             stars: stars,
           };
           let token = localStorage.getItem("token");
-          fetch("http://localhost:9292/ratings ", {
+          if(token)
+          fetch("http://localhost:3000/ratings ", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -118,7 +121,7 @@ export default function PromptAnswersPage({ user }) {
   }, [stars]);
 
   //INCREMENT AND DECREMENT RATING
-  const handleIncrementStars = () => {
+  const handleStars = () => {
     setHasRated(true);
     if (stars < 5) {
       setStars((stars) => stars + 1);
@@ -126,13 +129,20 @@ export default function PromptAnswersPage({ user }) {
     if (stars === 5) {
       setStars(5);
     }
-  };
-  const handleDecrementStars = () => {
-    setHasRated(true);
     if (stars > 1) setStars((stars) => stars - 1);
   };
+ 
+ console.log(stars)
 
 
+
+// const handleChange = (e) => {
+//   const {name, value} = e.target; 
+// setFormContent(value)
+
+// }
+
+ 
   //
   // function handleDeleteAnswer() {
   //   fetch(`http://localhost:9292/menus/${params.prompt_id}`, {
@@ -177,10 +187,38 @@ export default function PromptAnswersPage({ user }) {
       {currentUser? <button> Edit
         <Link to={`/`} /> 
       </button> : null} 
+      {currentUser? 
+      <div>{rating.stars} 
+      </div> : null}
+      <div  >
+        <form onSubmit={handleSubmit}>
+
+        {[...Array(5)].map((star, i) => {
+          return (
+            <label>
+              <input 
+              type="radio"
+              name="rating" 
+               
+               />
+
+          <FaStar />
+            </label>
+         
+          
+          )
+        })}
+        </form>
+      </div> 
 
     </div>
+    
   );
 }
+
+
+
+
 //   return (
 //     <div>
 //       {prompt ? (
