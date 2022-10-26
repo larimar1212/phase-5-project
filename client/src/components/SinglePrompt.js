@@ -18,7 +18,8 @@ export default function SinglePrompt({user}) {
             headers: {
                 Authorization: `Bearer: ${token}`
             }
-        })
+        }
+        )
 
         .then((res) => res.json())
         .then((data) => {

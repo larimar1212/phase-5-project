@@ -3,6 +3,7 @@ import { useState } from "react";
 // import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import './FeedCard.css'
 export default function FeedCard({ answer, prompt, user }) {
   const [author, setAsAuthor] = useState({});
   console.log(user);
@@ -18,7 +19,7 @@ export default function FeedCard({ answer, prompt, user }) {
 
   return (
     <div className="feed-card-div">
-      <div
+      <div className="main"
         onClick={(e) => {
           handleClick(answer.id);
         }}

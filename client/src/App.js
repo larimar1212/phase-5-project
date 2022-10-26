@@ -108,7 +108,7 @@ console.log({user})
         path='/prompts/answer_form' 
         element={<PromptForm setUser={setUser} user={user} />}/>
         <Route 
-        path='/edit-user/:prompt_answer_id'
+        path='/user/:username/answers/:prompt_answer_id'
         element={<EditAnswer setUser={setUser} user={user} />} />
         <Route 
         path='/feed/answers' 

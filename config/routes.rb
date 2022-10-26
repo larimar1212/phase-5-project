@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   # profile
 
   get '/users/:username', to: 'users#show_by_username'
-  
+  patch "/prompt_answers/:id/update", to: "prompt_answers#update_own_answer"
+
   #FEED.JS
   get '/feed/answers', to: 'prompt_answers#high_prompt_answers'
   #get '/feed/answers/prompt/id'

@@ -86,9 +86,9 @@ export default function PromptAnswersPage({ user }) {
           stars: stars,
         }),
       }).then((res) => {
-        if (res.ok) {
+       if (res.ok) {
           res.json().then((rating) => {
-            setRating({ rating: rating });
+            setRating(rating);
             setStars(stars);
           });
         }

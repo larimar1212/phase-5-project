@@ -1,8 +1,16 @@
 
-// import React, { useState } from "react";
-// import "./EditProfile.css";
+import React, { useState } from "react";
 
-// function EditProfile({ showEditProfile, setShowEditProfile, activeUser, setActiveUser }) {
+function EditProfile({ showEditProfile, setShowEditProfile, activeUser, setActiveUser }) {
+
+    return (
+        <div>
+
+        </div>
+    )
+
+};
+export default EditProfile
 	
 // 	const initialState = {
 // 		first_name: user.first_name,
