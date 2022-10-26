@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   ## initial fetch req to profile 
   get '/profile', to: 'users#profile'
   patch '/edit', to: 'users#update'
+  
+  delete "/prompt_answers/:id/delete", to: "prompt_answers#destroy_answer" 
 
   # profile
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import './Profile.css'
+import EditProfile from "./EditProfile";
 
 export default function Profile({ user, setUser }) {
   // Profile will keep track of user, whether user is active user
@@ -80,12 +81,11 @@ export default function Profile({ user, setUser }) {
             />
 
             {activeUser ? (
-              <Link
-                className="link-to-edit"
-                to={`/edit-user/${profile.username}`}
-              >
-                <button className="edit-button">Edit Profile</button>
-              </Link>
+              <EditProfile >Edit Profile 
+                <button>
+                  
+                </button>
+              </EditProfile>
             ) : null}
           </div>
 

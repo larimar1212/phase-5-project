@@ -2,6 +2,18 @@
 import React, { useState } from "react";
 
 function EditProfile({ showEditProfile, setShowEditProfile, activeUser, setActiveUser }) {
+    // 	const initialState = {
+    // 		first_name: user.first_name,
+    // 		last_name: user.last_name,
+    // 		username: user.username,
+    // 		avatar: user.avatar,
+    // 		current_password: "",
+    // 		password: "",
+    // 		password_confirmation: ""
+    // 	}
+    
+    // 	const [formData, setFormData] = useState(initialState);
+    // 	const [showUpdatePassword, setShowUpdatePassword] = useState(false);
 
     return (
         <div>
@@ -12,18 +24,6 @@ function EditProfile({ showEditProfile, setShowEditProfile, activeUser, setActiv
 };
 export default EditProfile
 	
-// 	const initialState = {
-// 		first_name: user.first_name,
-// 		last_name: user.last_name,
-// 		username: user.username,
-// 		avatar: user.avatar,
-// 		current_password: "",
-// 		password: "",
-// 		password_confirmation: ""
-// 	}
-
-// 	const [formData, setFormData] = useState(initialState);
-// 	const [showUpdatePassword, setShowUpdatePassword] = useState(false);
 
 // 	function handleChange(e) {
 // 		const { name, value } = e.target;

@@ -51,10 +51,16 @@ class PromptAnswersController < ApplicationController
   end 
 
   #DELETE /prompt_answers/1
-  def destroy
-    @prompt_answer.destroy
+  def destroy_answer
+  @user_id = decode_token
+  if @user_id
+    prompt_answer = PromptAnswer.find_by!(id: params[:id], user_id: @user_id)
+    prompt_answer.destroy!
+    head :no_content
+  else
+    render json: { error: "401 incorrect token" }, status: 401
   end
-
+end
   # get 5 highest answers
   def high_prompt_answers
     @prompt_answers = PromptAnswer.five_answers

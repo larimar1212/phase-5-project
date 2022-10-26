@@ -7,6 +7,7 @@ export default function EditAnswer({ user, setUser }) {
   const [activeUser, setActiveUser] = useState(false);
   const [formContent, setFormContent] = useState("");
   const [answers, setAnswers] = useState({})
+  const [isDeleting, setIsDeleting] = useState(false)
   
   // TAKE IN CURRENT USER AS A PROP
   const params = useParams()
@@ -24,9 +25,12 @@ useEffect(() => {
     console.log("data", data);
     console.log("user", user);
     setAnswers(data) // maybe make new state
+    setFormContent(data.content)
+
     if (data.user.id === user.id) {
       setActiveUser(true)
-      console.log(activeUser)
+      // console.log(activeUser)
+      console.log(data.user.id === user.id)
     }
   })
   .catch((e) => console.error(e))
@@ -61,13 +65,43 @@ useEffect(() => {
      })
   }
 
-  // active user can edit the answer.content 
+  const handleChange = (e) => {
+    setFormContent(e.target.value)
+  }
 
+
+
+function handleDeleteAnswer(e) {
+		e.preventDefault();
+    // if (answer)
+   let token = localStorage.getItem("token");
+		fetch (fetch(`http://localhost:3000/prompt_answers/${params.prompt_answer_id}/delete`, {
+			method: "DELETE",  
+      headers: {
+         "Content-Type": "application/json",
+          Authorization: `Bearer: ${token}`,
+      }
+
+	// 	})
+  //   .then((res) => {
+  //     if (res.ok) {
+  //     res.json())
+      
+  //     .then((answers) => {
+  //       setAnswers({answers: null, mode: ""})
+  //     })
+  //   } else {
+  //     res.json.then((data) => console.log(data))
+  //   }
+  //   }
+  
+	// 		)
+	// }
   
   
 
   //IF CURRENT USER, EDIT BLAH VLAH.
-  // LINK TO PROMPT ANSWER(ID) AFTER
+  // navigate TO PROMPT ANSWER(ID) AFTER 
 
   // GET	/photos/:id/edit	photos#edit	return an HTML form for editing a photo
   // PATCH/PUT	/photos/:id	photos#update	update a specific photo
@@ -75,24 +109,31 @@ useEffect(() => {
 
   /// PATCH REQUEST
   /// DELETE REQ
+
+  if (!user) {
+    return <p>loading...</p>
+  }
   return (
     <div>
   
       <div>EditAnswer
       <form onSubmit={handleSubmit}>
      <div>
-      <textarea>
-
+      {activeUser ? (
+      <textarea 
+      value={formContent} 
+      onChange={handleChange}>
       </textarea>
-      {/* <textarea className='text-input'
-        required 
-        type="text"
-        name="name"
-        placeholder='Write Your Response'
-        value={answers.content}>
-
-      </textarea> */}
+      ) : <p>{answers.content}</p>}  
      </div>
+     {activeUser ? (
+      <div>
+        <button 
+        onClick={handleDeleteAnswer}
+         > DELETE
+        </button>
+      </div> 
+     ) : null }
       <input type="submit" value="Submit" />
       </form>
       </div>
