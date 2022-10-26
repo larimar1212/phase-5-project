@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
-import PromptForm from './components/PromptForm'
+import PromptForm from './PromptForm'
 
 //PROMPTS/1
 // 404 == frontend issue 

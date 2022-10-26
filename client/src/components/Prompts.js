@@ -2,7 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-//PROMPTS/
+//PROMPTS/  it works when i click on one => prompts/1
+
 export default function Prompts({user, setUser}) {
 	const [prompts, setPrompts] = useState([])
 	const {promptAnswer, setPromptAnswers} = useState('') 

@@ -12,7 +12,7 @@ import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import PromptAnswersPage from './components/PromptAnswersPage';
-import SinglePrompt from './SinglePrompt';
+import SinglePrompt from './components/SinglePrompt';
 
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
 			});
 		}
 	}, [user]);
-  
+
 console.log({user})
   
 

@@ -18,7 +18,7 @@ export default function PromptAnswersPage({ user }) {
 
   const params = useParams();
   const navigate = useNavigate();
-  console.log(user)
+  console.log(user);
 
   const id = params.prompt_answer_id;
 
@@ -55,20 +55,17 @@ export default function PromptAnswersPage({ user }) {
         setComment(data.comments);
 
         if (user) {
-          if (data.user.id === user.id) {
-            setCurrentUser(true);
-          } else {
-            const rating = user.ratings?.find((rating) => {
-              // console.log('user has rated', rating.user_id === data.user.id);
-              return rating.user_id === data.user.id;
-            });
-            setRating(rating);
+          let existingRating = user.ratings?.find((rating) => {
+              return rating.prompt_answer_id === data.id
+          })
+          console.log('existing rating', existingRating)
+          if (existingRating) {
+            setRating(existingRating)
           }
         }
       })
       .catch((e) => console.error(e));
-  }, [params, user]);
-
+  }, [params, user, rating]);
 
   // fix for onclick aka make one functionza
   // PATCH if user has already rated
@@ -95,30 +92,27 @@ export default function PromptAnswersPage({ user }) {
     } else {
       if (!rating && hasRated) {
         // POST if its new
-        const handleSubmit = (e) => {
-          e.preventDefault()
-          const newRating = {
-            user_id: user.id,
-            prompt_answer_id: answer.id,
-            stars: stars,
-          };
-          let token = localStorage.getItem("token");
-          if(token)
-          fetch("http://localhost:3000/ratings ", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer: ${token}`,
-            },
-            body: JSON.stringify(newRating),
-          })
-            .then((res) => res.json())
-            .then((newRating) => setRating(newRating))
-            .catch((e) => console.error(e));
+        const newRating = {
+          user_id: user.id,
+          prompt_answer_id: answer.id,
+          stars: stars,
         };
-      }
+        let token = localStorage.getItem("token");
+        if(token)
+        fetch("http://localhost:3000/ratings ", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer: ${token}`,
+          },
+          body: JSON.stringify(newRating),
+        })
+          .then((res) => res.json())
+          .then((data) => setRating(data))
+          .catch((e) => console.error(e));
+      };
     }
-  }, [stars]);
+  }, [stars, hasRated]);
 
   //INCREMENT AND DECREMENT RATING
   const handleStars = () => {
@@ -131,28 +125,18 @@ export default function PromptAnswersPage({ user }) {
     }
     if (stars > 1) setStars((stars) => stars - 1);
   };
- 
- console.log(stars)
 
+  console.log(stars);
 
-
-// const handleChange = (e) => {
-//   const {name, value} = e.target; 
-// setFormContent(value)
-
-// }
-
- 
   //
   // function handleDeleteAnswer() {
-  //   fetch(`http://localhost:9292/menus/${params.prompt_id}`, {
+  //   fetch(`http://localhost:3000/prompt_answers/${id}`, {
   //     method: "DELETE",
   //   })
   //     .then(res => res.json())
   //     .then(() => navigate(`/user/${user.username}`))
   //     .catch(e => console.error(e));
   // }
-
 
   // function handleComments() {
   //   fetch(`http://localhost:9292/likes/${like.id}`, {
@@ -169,10 +153,8 @@ export default function PromptAnswersPage({ user }) {
   //handle deeletr activeuser? deletebutton : null (delete)
   //
 
-  
-
-  console.log(currentUser)
-  console.log(user)
+  console.log(currentUser);
+  console.log(user);
   return (
     <div>
       <div className="answers-page-container">
@@ -184,35 +166,36 @@ export default function PromptAnswersPage({ user }) {
           <h4>{answer.content}</h4>
         </div>
       </div>
-      {currentUser? <button> Edit
-        <Link to={`/`} /> 
-      </button> : null} 
-      {currentUser? 
-      <div>{rating.stars} 
-      </div> : null}
-      <div  >
-        <form onSubmit={handleSubmit}>
-
+      {currentUser ? (
+        <button>
+          {" "}
+          Edit
+          <Link to={`/`} />
+        </button>
+      ) : null}
+      {currentUser ? <div>{rating.stars}</div> : null}
+      <div >
         {[...Array(5)].map((star, i) => {
+          const ratingValue = i + 1;
+          
           return (
             <label>
-              <input 
-              type="radio"
-              name="rating" 
-               
-               />
-
-          <FaStar />
+              <input
+                onChange={(e) => {
+                   setHasRated(true)
+                  setStars(e.target.value);
+                  console.log(e.target.value);
+                }}
+                type="radio"
+                name="rating"
+                value={ratingValue}
+              />
+              <FaStar color={ratingValue < stars ? '#ffc107': '#e4e5e9' }/>
             </label>
-         
-          
-          )
+          );
         })}
-        </form>
-      </div> 
-
+      </div>
     </div>
-    
   );
 }
 
