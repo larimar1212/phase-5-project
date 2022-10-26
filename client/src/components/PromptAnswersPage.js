@@ -54,6 +54,7 @@ export default function PromptAnswersPage({ user }) {
         setAnswer(data); // prompt_answer
         setComment(data.comments);
 
+        //console.log(data.user.id, user.id)
         if (user) {
           let existingRating = user.ratings?.find((rating) => {
               return rating.prompt_answer_id === data.id
@@ -61,6 +62,9 @@ export default function PromptAnswersPage({ user }) {
           console.log('existing rating', existingRating)
           if (existingRating) {
             setRating(existingRating)
+          }
+          if (data.user.id === user.id) {
+            setCurrentUser(true)
           }
         }
       })
@@ -165,10 +169,14 @@ export default function PromptAnswersPage({ user }) {
         <div className="answer-in-answer-div">
           <h4>{answer.content}</h4>
         </div>
+        <div>
+          <h4>
+            {answer.avgstar}
+          </h4>
+        </div>
       </div>
       {currentUser ? (
         <button>
-          {" "}
           Edit
           <Link to={`/`} />
         </button>

@@ -47,7 +47,8 @@ return (
           user = {user}
           key={answer.id}
           answer={answer}
-          prompt={answer.prompt}  
+          prompt={answer.prompt} 
+          
         />
       ))}
     </div>

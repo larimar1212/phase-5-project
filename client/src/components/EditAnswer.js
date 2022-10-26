@@ -7,7 +7,13 @@ export default function EditAnswer() {
 //IF CURRENT USER, EDIT BLAH VLAH.
 // LINK TO PROMPT ANSWER(ID) AFTER 
 
-    /// PATCH REQUEST 
+
+// GET	/photos/:id/edit	photos#edit	return an HTML form for editing a photo
+// PATCH/PUT	/photos/:id	photos#update	update a specific photo
+// DELETE	/photos/:id	photos#destroy	delete a specific photo
+
+
+    /// PATCH REQUEST
     /// DELETE REQ 
   return (
     <div>EditAnswer</div>

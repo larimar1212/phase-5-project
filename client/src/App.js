@@ -7,12 +7,13 @@ import Nav from './components/Nav';
 import Prompts from './components/Prompts';
 import PromptForm from './components/PromptForm';
 import Feed from './components/Feed';
-//import EditProfileForm from './components/EditProfile';
+import EditProfileForm from './components/EditProfile';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import PromptAnswersPage from './components/PromptAnswersPage';
 import SinglePrompt from './components/SinglePrompt';
+import EditAnswer from './components/EditAnswer';
 
 
 function App() {
@@ -89,10 +90,10 @@ console.log({user})
 					path='/user/:username'
 					element={user ? <Profile setUser={setUser} user={user}/> : null}
 				/>
-				{/* <Route
+				 <Route
 					path='/edit-user/:username'
 					element={<EditProfileForm setUser={setUser} user={user} />}
-				/> */}
+				/> 
         <Route 
         path='/prompts' 
         element={<Prompts setUser={setUser} user={user} />} />
@@ -106,6 +107,9 @@ console.log({user})
         <Route
         path='/prompts/answer_form' 
         element={<PromptForm setUser={setUser} user={user} />}/>
+        <Route 
+        path='/edit-user/:prompt_answer_id'
+        element={<EditAnswer setUser={setUser} user={user} />} />
         <Route 
         path='/feed/answers' 
         element={<Feed setUser={setUser} user={user} />} />
