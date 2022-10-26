@@ -1,15 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-export default function EditAnswer({ user }) {
+
+
+
+export default function EditAnswer({ user, setUser }) {
   const [activeUser, setActiveUser] = useState(false);
   const [formContent, setFormContent] = useState("");
   const [answers, setAnswers] = useState({})
-
-
+  
   // TAKE IN CURRENT USER AS A PROP
   const params = useParams()
 
-  useEffect(() => {
+useEffect(() => {
+ if (user) {
+  let token = localStorage.getItem("token");
+  fetch(`http://localhost:3000/prompt_answers/${params.prompt_answer_id}`, {
+    headers: {
+      Authorization: `Bearer: ${token}`,
+    },
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    console.log("data", data);
+    console.log("user", user);
+    setAnswers(data) // maybe make new state
+    if (data.user.id === user.id) {
+      setActiveUser(true)
+      console.log(activeUser)
+    }
+  })
+  .catch((e) => console.error(e))
+ }
+}, [params, user])
+
+// PATCH 
+  const handleSubmit = (e) => {
+    e.preventDefault()
     let token = localStorage.getItem("token");
     fetch(`http://localhost:3000/prompt_answers/${params.prompt_answer_id}/update`, {
          method: "PATCH",
@@ -26,20 +52,18 @@ export default function EditAnswer({ user }) {
     .then((res) => res.json())
     .then((data) => {
       console.log('data', data)
+      console.log('user', user)
       setAnswers(data)
 
       if (data.user.id === user.id) {
         setActiveUser(true)
       }
      })
-  }, [params, user]);
+  }
 
+  // active user can edit the answer.content 
 
-  // const handleSubmit = () => {
-    
-  // }
-
-
+  
   
 
   //IF CURRENT USER, EDIT BLAH VLAH.
@@ -52,6 +76,27 @@ export default function EditAnswer({ user }) {
   /// PATCH REQUEST
   /// DELETE REQ
   return (
-  <div>EditAnswer</div>
+    <div>
+  
+      <div>EditAnswer
+      <form onSubmit={handleSubmit}>
+     <div>
+      <textarea>
+
+      </textarea>
+      {/* <textarea className='text-input'
+        required 
+        type="text"
+        name="name"
+        placeholder='Write Your Response'
+        value={answers.content}>
+
+      </textarea> */}
+     </div>
+      <input type="submit" value="Submit" />
+      </form>
+      </div>
+ 
+  </div>
   );
 }
