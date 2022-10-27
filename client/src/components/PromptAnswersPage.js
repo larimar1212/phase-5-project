@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FaStar} from 'react-icons/fa'
+import './PromptAnswersPage.css'
 
 
 //FEED/ANSWERS 
@@ -14,7 +15,9 @@ export default function PromptAnswersPage({ user }) {
   const [profile, setProfile] = useState({});
   const [answer, setAnswer] = useState({});
   const [stars, setStars] = useState(0);
+  const [hover, setHover] = useState(null);
   const [hasRated, setHasRated] = useState(false);
+  const [hasUsername, setHasUsername] = useState('')
 
   const params = useParams();
   const navigate = useNavigate();
@@ -36,6 +39,9 @@ export default function PromptAnswersPage({ user }) {
   // if user? link to edit your promptanswer. => EditAnswer.js ,: null
   // if user? !ratings , input : can edit ratings
 
+
+  // state called username empty string 
+  //set USERNAME IN THE FETCH 
   //GET /prompt_answers/1
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -53,23 +59,26 @@ export default function PromptAnswersPage({ user }) {
         setProfile(data.user);
         setAnswer(data); // prompt_answer
         setComment(data.comments);
+        setHasUsername(data.user.username)
+        console.log(data.user.username)
 
         //console.log(data.user.id, user.id)
         if (user) {
           let existingRating = user.ratings?.find((rating) => {
-              return rating.prompt_answer_id === data.id
-          })
-          console.log('existing rating', existingRating)
+            return rating.prompt_answer_id === data.id;
+          });
+          console.log("existing rating", existingRating);
           if (existingRating) {
-            setRating(existingRating)
+            setRating(existingRating);
           }
           if (data.user.id === user.id) {
-            setCurrentUser(true)
+            setCurrentUser(true);
           }
         }
       })
       .catch((e) => console.error(e));
   }, [params, user, rating]);
+
 
   // fix for onclick aka make one functionza
   // PATCH if user has already rated
@@ -86,7 +95,7 @@ export default function PromptAnswersPage({ user }) {
           stars: stars,
         }),
       }).then((res) => {
-       if (res.ok) {
+        if (res.ok) {
           res.json().then((rating) => {
             setRating(rating);
             setStars(stars);
@@ -102,19 +111,19 @@ export default function PromptAnswersPage({ user }) {
           stars: stars,
         };
         let token = localStorage.getItem("token");
-        if(token)
-        fetch("http://localhost:3000/ratings ", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer: ${token}`,
-          },
-          body: JSON.stringify(newRating),
-        })
-          .then((res) => res.json())
-          .then((data) => setRating(data))
-          .catch((e) => console.error(e));
-      };
+        if (token)
+          fetch("http://localhost:3000/ratings ", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer: ${token}`,
+            },
+            body: JSON.stringify(newRating),
+          })
+            .then((res) => res.json())
+            .then((data) => setRating(data))
+            .catch((e) => console.error(e));
+      }
     }
   }, [stars, hasRated]);
 
@@ -132,76 +141,76 @@ export default function PromptAnswersPage({ user }) {
 
   console.log(stars);
 
-  //
-  // function handleDeleteAnswer() {
-  //   fetch(`http://localhost:3000/prompt_answers/${id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then(res => res.json())
-  //     .then(() => navigate(`/user/${user.username}`))
-  //     .catch(e => console.error(e));
-  // }
-
-  // function handleComments() {
-  //   fetch(`http://localhost:9292/likes/${like.id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setLike(false);
-  //     })
-  //     .catch(e => console.error(e));
-  // }
+  // if active User. edit option link to edit prompts
 
   ///handleRating (post )
   //handle deeletr activeuser? deletebutton : null (delete)
-  //
+  // if 0 no show stars has not beenr ated state  //
+  // if rated show rating on fetch ... show yellow stars
+  // maybe show average raing in string state string interpolation
 
+  // const [limit, setLimit] = useState(`${answer.content.substring(0, 300)}...`)
+
+  // const [showAvgStars, setShowAvgStars] = useState(`${answer.avgstar})
+
+  // if user Your prompt.name answer : else 
+  // answer.user.username's answer to prompt.name
   console.log(currentUser);
   console.log(user);
   return (
     <div>
       <div className="answers-page-container">
-        <div className="prompt-in-answer-div">
-          <h3>{prompt.name}</h3>
-          <h3>{prompt.content}</h3>
+        <div className="centering-answer-div">
+          <div className="boo">
+            <div className="prompt-only-div">
+              <h3 className="prompt-a-name">{prompt.name}</h3>
+              <h3>{prompt.content}</h3>
+            </div>
+            <div className="prompt-in-answer-div answer-flex">
+              <h4>{answer.content}</h4>
+            </div>
+            {/* <div>
+              <h4 className="prompt-in-rating-div">{answer.avgstar}</h4>
+            </div> */}
+          </div>
+          {currentUser ? (
+            
+               <Link to={`/user/${user.username}/answers/${answer.id}`} >
+                <button className="edit-answer-button">Edit</button>
+               </Link>
+          ) : null}
+           <div>
+            {`${user.username}'s average rating is ${rating.stars}`} </div>  
+          <div className="stars-div">
+            {[...Array(5)].map((star, i) => {
+              const ratingValue = i + 1;
+
+              return (
+                <label>
+                  <input
+                    onChange={(e) => {
+                      setHasRated(true);
+                      setStars(e.target.value);
+                      console.log(e.target.value);
+                    }}
+                    type="radio"
+                    name="rating"
+                    value={ratingValue} 
+                  />
+                  <FaStar
+                    className="star"
+                    size={50}
+                    color={
+                      ratingValue < (hover || stars) ? "#ffc107" : "#e4e5e9"
+                    }
+                    onMouseEnter={() => setHover(ratingValue)}
+                    onMouseLeave={() => setHover(null)}
+                  />
+                </label>
+              );
+            })}
+          </div>
         </div>
-        <div className="answer-in-answer-div">
-          <h4>{answer.content}</h4>
-        </div>
-        <div>
-          <h4>
-            {answer.avgstar}
-          </h4>
-        </div>
-      </div>
-      {currentUser ? (
-        <button>
-          Edit
-          <Link to={`/`} />
-        </button>
-      ) : null}
-      {currentUser ? <div>{rating.stars}</div> : null}
-      <div >
-        {[...Array(5)].map((star, i) => {
-          const ratingValue = i + 1;
-          
-          return (
-            <label>
-              <input
-                onChange={(e) => {
-                   setHasRated(true)
-                  setStars(e.target.value);
-                  console.log(e.target.value);
-                }}
-                type="radio"
-                name="rating"
-                value={ratingValue}
-              />
-              <FaStar color={ratingValue < stars ? '#ffc107': '#e4e5e9' }/>
-            </label>
-          );
-        })}
       </div>
     </div>
   );

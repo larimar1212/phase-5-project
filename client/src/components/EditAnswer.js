@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 
 export default function EditAnswer({ user, setUser }) {
@@ -11,6 +11,7 @@ export default function EditAnswer({ user, setUser }) {
   
   // TAKE IN CURRENT USER AS A PROP
   const params = useParams()
+  const navigate = useNavigate()
 
 useEffect(() => {
  if (user) {
@@ -71,16 +72,23 @@ useEffect(() => {
 
 
 
+
 function handleDeleteAnswer(e) {
 		e.preventDefault();
     // if (answer)
    let token = localStorage.getItem("token");
-		fetch (fetch(`http://localhost:3000/prompt_answers/${params.prompt_answer_id}/delete`, {
+		fetch(`http://localhost:3000/prompt_answers/${params.prompt_answer_id}/delete`, {
 			method: "DELETE",  
       headers: {
          "Content-Type": "application/json",
           Authorization: `Bearer: ${token}`,
       }
+    })
+    .then((res) => {
+      navigate('/')
+    })
+  }
+    
 
 	// 	})
   //   .then((res) => {

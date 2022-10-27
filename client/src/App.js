@@ -7,7 +7,7 @@ import Nav from './components/Nav';
 import Prompts from './components/Prompts';
 import PromptForm from './components/PromptForm';
 import Feed from './components/Feed';
-import EditProfileForm from './components/EditProfile';
+import EditProfile from './components/EditProfile';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -93,7 +93,7 @@ console.log({user})
 				/>
 				 <Route
 					path='/edit-user/:username'
-					element={<EditProfileForm setUser={setUser} user={user} />}
+					element={<EditProfile setUser={setUser} user={user} />}
 				/> 
         <Route 
         path='/prompts' 

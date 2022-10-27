@@ -12,3 +12,6 @@ class User < ApplicationRecord
     end
 
 end
+
+
+#validates :content, length: 

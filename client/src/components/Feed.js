@@ -2,6 +2,8 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import FeedCard from './FeedCard'
 import { useParams } from 'react-router-dom'
+import {FaFire} from 'react-icons/fa'
+import './Feed.css'
 
 export default function Feed({user}) {
   const [answers, setAnswers] = useState([])
@@ -37,14 +39,96 @@ useEffect(() => {
 
 
 return (
-  <div id="feed">
+  <div id="feed-container">
+    <div className="feed-card-container">
+	
+	<div className="page" data-num="one">
+		<div className="feed-card-title"></div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+	</div>
+	<div className="shadow" data-num="one"></div>
+	
+	<div className="page" data-num="two">
+		<div className="feed-card-title"></div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+	</div>
+	<div className="shadow" data-num="two"></div>
+	
+	<div className="page" data-num="three">
+		<div className="feed-card-title"></div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+		<div className="para">
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+			<div className="line"></div>
+		</div>
+	</div>
+	<div className="shadow" data-num="three"></div>
+</div>
     <div id="feed-header">
-      <h1>New Items From Your Friends</h1>
     </div>
+	     <h1 className="feed_headline">Minds on Fire<FaFire color='red' />
+		 </h1> 
+
     <div id="feed-list">
       {answers?.map((answer) => (
         <FeedCard
-          user = {user}
+          user={user}
           key={answer.id}
           answer={answer}
           prompt={answer.prompt} 
@@ -62,3 +146,6 @@ return (
 //   prompt={prompt} 
 //   key={prompt.id} />
 // ))}
+
+
+//prompt_answer.conter === answer.substring

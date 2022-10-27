@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import './Login.css'
 
+// FIX DESIGN 
 
 function Login({ setUser }) {
     const initialState = { username: "", password: "" };
@@ -42,11 +44,18 @@ const navigate = useNavigate()
 			})
 	}
 
-
+// make css so that it has a gif of typing screenwriting 
+// on the side  
 	return (
-		<div id="login">
-			<form id="login-form" onSubmit={handleSubmit}>
-				<input
+		<div className="login-body">
+		<div className="login-main">
+			<div className="containy a-container">
+			<form id="a-form" className="login-form" onSubmit={handleSubmit}>
+				<h2 className="login_title title" >Login</h2>
+				<div className="form__icons">
+					<img className="form__icon"></img>
+				</div>
+				<input className="login__input"
 					type="text"
 					required
 					name="username"
@@ -54,7 +63,7 @@ const navigate = useNavigate()
 					value={formData.username}
 					onChange={handleChange}
 				/>
-				<input
+				<input className="login__input"
 					type="password"
 					required
 					name="password"
@@ -62,9 +71,16 @@ const navigate = useNavigate()
 					value={formData.password}
 					onChange={handleChange}
 				/>
-				<button>Sign In</button>
+				<Link className="signup-link" to={'/signup'}>Don't have an account?</Link>
+				<button className="login__button  submit">Sign In</button>
 			</form>
-			<button>Create Account</button>
+			{/* <div className="containy b-container is-txl is-z200" id="b-container">
+				{/* <img className="login-pic" src="https://images.squarespace-cdn.com/content/v1/4f7cb1f2e4b000a129e4f333/1491367278838-1GXXKCFTR1R5WC873ZBY/image-asset.gif?format=1000w">
+				</img> 
+
+			</div> */}
+			</div>
+		</div>
 		</div>
 	);
 }
