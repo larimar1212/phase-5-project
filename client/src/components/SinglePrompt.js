@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import PromptForm from './PromptForm'
+import './SinglePrompt.css'
 
 //PROMPTS/1
 // 404 == frontend issue 
@@ -37,18 +38,21 @@ export default function SinglePrompt({user}) {
 
 
     
+
+
+    
   return (
-    <div>SinglePrompt
+    <div>
         <div className='single-prompt-container'>
             <div key={prompt.id}>
-                <h3>{prompt.name}
-                <p>{prompt.content}</p>
+                <h3 className='form-prompt-name'>{prompt.name}
                 </h3>
-                <p>
+                <h2 className='form-prompt-content'>{prompt.content}</h2>
+                <div>
                     <PromptForm 
                     prompt={prompt}
                     user={user}/>
-                </p>
+                </div>
 
             </div>
 

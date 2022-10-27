@@ -70,7 +70,6 @@ font-weight: 400;
 font-style: normal;
 /* margin-left: 7%; */
 align-items: center;
-border-radius: 15px;
 margin-bottom: 50px;
 border-color: #2367a7;
 
@@ -104,7 +103,7 @@ margin-right: 30%;
     align-self: baseline;
     display: flex;
 align-items: center; 
-margin-left: 24%;
+margin-left: 2%;
 margin-bottom: -40px;
 } 
 

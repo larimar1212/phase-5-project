@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
+
+
 .login-body {
     width: 100%;
+background-image: url("https://image.ibb.co/de6JzG/bitmap_1_1.png");
+
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -8,6 +13,7 @@
     font-size: 12px;
     background-color: white;
     color: gray;
+    
 }
 
 .login-main {

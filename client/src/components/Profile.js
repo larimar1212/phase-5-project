@@ -88,7 +88,7 @@ export default function Profile({ user, setUser }) {
 
             {activeUser ? (
               <Link to={'/edit-user/:username'}>
-              <button> EDIT PROFILE
+              <button className="edit-profile-button"> EDIT PROFILE
               </button>
                   </Link>
             ) : null}

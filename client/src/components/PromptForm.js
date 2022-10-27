@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import './PromptForm.css'
 //import { useNavigate } from 'react-router-dom'
 
 
@@ -57,38 +58,40 @@ setFormContent(value)
     }
 	}
 
- 
-
-
-
-
-
 
   return (
-    <div>PromptForm
-      <div className='form-container'>
-        <div className=''>
-          Write the Next Scene
+    <div>
+<div className='body-for-prompt'>
+<div className="wrap-pf">
+   <div className="toolbar">
+   </div>
+   {/* <div className="editor"></div> */}
+
+      <div className='head-pf'>What comes next?</div>
+      <div className='editor'>
+        <div className='p-f-contain'>
         </div>
         <form onSubmit={handleSubmit}>
 
           <div>
           <textarea className='text-input'
+          id="lari"
           required 
           type="text"
           name="name"
           placeholder='Write Your Response'
           value={formContent.name}
-          onChange={handleChange}>
-          </textarea>
+          onChange={handleChange} 
+          
+          />
           </div>
         <input className="form-menu-submit" type="submit" value="Submit" />
         </form>
 
       </div>
 
-      
+      </div>
+      </div>
     </div>
   )
 }
-

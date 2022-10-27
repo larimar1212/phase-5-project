@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom'
+import './Prompts.css'
 
 //PROMPTS/  it works when i click on one => prompts/1
 
@@ -56,21 +57,20 @@ export default function Prompts({user, setUser}) {
 
 //prompt.category
   return (
-    <div className='prompts-div'>
-	<div className='prompt-container'>PROMPTS
-
+    <div className='v-div'>
+	<div className='prompt-container'>
+		
 		{prompts?.map((prompt) => (
-			<div onClick={(e) => {handleClick(prompt.id)}}
+			<div className='prompts-div' onClick={(e) => {handleClick(prompt.id)}}
 			key={prompt.id}
 			 >
 			<h3 className='prompt-name'>
 			{prompt.name}
 			</h3>
-			<h3>
+			<h3 className='prompt-content'>
 			{prompt.content}
 			</h3>
 			<h3>
-			{prompt.id}
 			</h3>
 				</div>
 		))}
